@@ -19,6 +19,7 @@ func main() {
 			p.EntryChan <- pool.NewTask(id, task)
 			id++
 		}
+		close(p.EntryChan)
 	}()
 	p.Run()
 }
