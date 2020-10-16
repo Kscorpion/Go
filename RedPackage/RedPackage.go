@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"time"
 )
 
 type RedPackage struct {
@@ -31,8 +32,13 @@ func (rp *RedPackage) GrabRedPackage() float64 {
 }
 
 func main() {
-	r := RedPackage{float64(30), float64(30)}
-	for i := 0; i < 10; i++ {
-		fmt.Println(r.GrabRedPackage())
-	}
+
+	go func() {
+		r := RedPackage{float64(10), float64(30)}
+		for i := 0; i < 1; i++ {
+			fmt.Println(r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage())
+		}
+	}()
+	time.Sleep(time.Second * 2)
+
 }
