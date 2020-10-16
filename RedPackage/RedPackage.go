@@ -32,13 +32,11 @@ func (rp *RedPackage) GrabRedPackage() float64 {
 }
 
 func main() {
-
-	go func() {
-		r := RedPackage{float64(10), float64(30)}
-		for i := 0; i < 1; i++ {
+	for i := 0; i < 10; i++ {
+		go func() {
+			r := RedPackage{float64(10), float64(30)}
 			fmt.Println(r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage(), r.GrabRedPackage())
-		}
-	}()
+		}()
+	}
 	time.Sleep(time.Second * 2)
-
 }
