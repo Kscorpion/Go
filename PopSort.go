@@ -17,6 +17,7 @@ func PopSort(list []int) []int {
 				list[j+1] = temp
 			}
 		}
+		//如果没有交换过元素，则已经有序
 		if issort == 0 {
 			break
 		}
