@@ -44,6 +44,29 @@ func LinkRec(p *L1) (newHead *L1) {
 	}
 	return
 }
+//合并有序链表（仅限从小到大有序）
+func mergeTwoLists(l1 *L1, l2 *L1) *L1 {
+	newHead := &L1{}
+	n := newHead
+	//等长度比较完成
+	for l1 != nil && l2 != nil {
+		if l1.data < l2.data {
+			n.next = l1
+			l1 = l1.next
+		} else {
+			n.next = l2
+			l2 = l2.next
+		}
+		n = n.next
+	}
+	if l1 != nil {
+		n.next = l1
+	}
+	if l2 != nil {
+		n.next = l2
+	}
+	return newHead.next
+}
 
 func displayL1(l1 *L1) {
 	for l1 != nil {
