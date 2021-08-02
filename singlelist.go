@@ -50,6 +50,7 @@ func mergeTwoLists(l1 *L1, l2 *L1) *L1 {
 	n := newHead
 	//等长度比较完成
 	for l1 != nil && l2 != nil {
+		//如需从大到小把下面的' < '改为' > '
 		if l1.data < l2.data {
 			n.next = l1
 			l1 = l1.next
