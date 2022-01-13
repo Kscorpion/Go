@@ -15,7 +15,7 @@ func lengthOfLongestSubString(s string) int {
 	for right := 0; right < length; right++ {
 		index := s[right]
 		//单个字符
-		//两种情况 1存在过 【字符数值】 2没存在过 【0】
+		//两种情况 1存在过 【字符下标】 2没存在过 【0】
 		left = max(left, cmap[index])
 		ans = max(ans, right-left+1)
 		cmap[index] = right + 1
