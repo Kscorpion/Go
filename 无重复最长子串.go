@@ -17,7 +17,9 @@ func lengthOfLongestSubString(s string) int {
 		//若有重复字符 左指针移动到该位置
 		//两种情况 1存在过 【字符下标】 2没存在过 【0】
 		left = max(left, cmap[index])
+                //始终保存最大长度
 		ans = max(ans, right-left+1)
+                //
 		cmap[index] = right + 1
 	}
 	return ans
