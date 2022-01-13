@@ -19,7 +19,7 @@ func lengthOfLongestSubString(s string) int {
 		left = max(left, cmap[index])
                 //始终保存最大长度
 		ans = max(ans, right-left+1)
-                //
+                //避免存入下标0与无数据歧义
 		cmap[index] = right + 1
 	}
 	return ans
