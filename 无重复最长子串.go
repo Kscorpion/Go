@@ -13,6 +13,7 @@ func lengthOfLongestSubString(s string) int {
 	cmap := make([]int, 128)
 	left := 0
 	for right := 0; right < length; right++ {
+		//取出字符作为索引
 		index := s[right]
 		//若有重复字符 左指针移动到该位置
 		//两种情况 1存在过 【字符下标】 2没存在过 【0】
