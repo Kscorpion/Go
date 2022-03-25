@@ -1,9 +1,9 @@
 package main
 
 import (
+	"GoPool/GoPool"
 	"fmt"
 	"time"
-	"pool"
 )
 
 func task() error {
@@ -12,11 +12,11 @@ func task() error {
 }
 
 func main() {
-	p := pool.NewPool(3)
+	p := GoPool.NewPool(3)
 	id := 0
 	go func() {
 		for {
-			p.EntryChan <- pool.NewTask(id, task)
+			p.EntryChan <- GoPool.NewTask(id, task)
 			id++
 		}
 		close(p.EntryChan)
