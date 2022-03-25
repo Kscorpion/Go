@@ -28,5 +28,5 @@ func main() {
 			panic("Error")
 		}
 	}
-	fmt.Println("removeMin test completed.")
+	fmt.Println("removeMin Example completed.")
 }
