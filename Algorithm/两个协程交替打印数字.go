@@ -32,7 +32,6 @@ func main() {
 	}(ctx)
 	select {
 	case <-ctx.Done():
-		cancelFunc()
 		fmt.Println("结束输出")
 	}
 }
