@@ -9,7 +9,7 @@ import (
 var ()
 
 func main() {
-	c := make(chan int, 10)
+	c := make(chan int)
 	ctx, cancelfunc := context.WithTimeout(context.TODO(), 5*time.Second)
 	list := []int{23, 32, 78, 43, 76, 65, 345, 762}
 	go a(ctx, list, 345, c)
