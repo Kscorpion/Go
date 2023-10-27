@@ -6,33 +6,40 @@ import (
 	"time"
 )
 
-var ()
-
-func main() {
-	c := make(chan int)
-	ctx, cancelfunc := context.WithTimeout(context.TODO(), 5*time.Second)
-	list := []int{23, 32, 78, 43, 76, 65, 345, 762}
-	go a(ctx, list, 345, c)
-	go a(ctx, list, 345, c)
-	select {
-	case <-c:
-		cancelfunc()
-		return
-	case <-ctx.Done():
-		fmt.Println("超时了")
-		cancelfunc()
-		return
-	}
+type API interface {
+	Call() (string, error)
 }
 
-func a(cancel context.Context, list []int, flg int, c chan<- int) {
-	for _, val := range list {
-		if val == flg {
-			//time.Sleep(10 * time.Second)
-			fmt.Println("Found it")
-			c <- 10
-			close(c)
-			break
+type MyAPI struct{}
+
+func (a *MyAPI) Call() (string, error) {
+	// 模拟一个耗时的操作
+	time.Sleep(3 * time.Second)
+	return "API调用成功", nil
+}
+
+func main() {
+	// 创建一个带有超时控制的上下文
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
+	api := &MyAPI{}
+	result := make(chan string)
+
+	// 启动一个协程来执行接口调用
+	go func() {
+		data, err := api.Call()
+		if err != nil {
+			result <- err.Error()
+			return
 		}
+		result <- data
+	}()
+
+	select {
+	case <-ctx.Done():
+		fmt.Println("接口调用超时")
+	case res := <-result:
+		fmt.Println(res)
 	}
 }
