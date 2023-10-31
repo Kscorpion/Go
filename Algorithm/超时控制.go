@@ -10,36 +10,50 @@ type API interface {
 	Call() (string, error)
 }
 
-type MyAPI struct{}
+type MyAPI struct {
+}
 
-func (a *MyAPI) Call() (string, error) {
-	// 模拟一个耗时的操作
+func (a *MyAPI) Call0() (string, error) {
+	time.Sleep(1 * time.Second)
+	return "success call0", nil
+}
+func (a *MyAPI) Call1() (string, error) {
 	time.Sleep(3 * time.Second)
-	return "API调用成功", nil
+	return "success call1", nil
+}
+
+func (a *MyAPI) Call2() (string, error) {
+	time.Sleep(5 * time.Second)
+	return "success call2", nil
 }
 
 func main() {
-	// 创建一个带有超时控制的上下文
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-	defer cancel()
-
+	ctx, calcel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer calcel()
 	api := &MyAPI{}
 	result := make(chan string)
 
-	// 启动一个协程来执行接口调用
 	go func() {
-		data, err := api.Call()
-		if err != nil {
-			result <- err.Error()
-			return
-		}
+		data, _ := api.Call0()
 		result <- data
 	}()
 
-	select {
-	case <-ctx.Done():
-		fmt.Println("接口调用超时")
-	case res := <-result:
-		fmt.Println(res)
+	go func() {
+		data, _ := api.Call1()
+		result <- data
+	}()
+
+	go func() {
+		data, _ := api.Call2()
+		result <- data
+	}()
+
+	for i := 0; i < 3; i++ {
+		select {
+		case <-ctx.Done():
+			fmt.Println("timeout")
+		case res := <-result:
+			fmt.Println(res)
+		}
 	}
 }
