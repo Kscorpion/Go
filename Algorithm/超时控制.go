@@ -7,24 +7,15 @@ import (
 )
 
 type API interface {
-	Call() (string, error)
+	Call(time.Duration) (string, error)
 }
 
 type MyAPI struct {
 }
 
-func (a *MyAPI) Call0() (string, error) {
-	time.Sleep(1 * time.Second)
-	return "success call0", nil
-}
-func (a *MyAPI) Call1() (string, error) {
-	time.Sleep(3 * time.Second)
-	return "success call1", nil
-}
-
-func (a *MyAPI) Call2() (string, error) {
-	time.Sleep(5 * time.Second)
-	return "success call2", nil
+func (a *MyAPI) Call(t time.Duration) (string, error) {
+	time.Sleep(t * time.Second)
+	return "success call", nil
 }
 
 func main() {
@@ -34,17 +25,17 @@ func main() {
 	result := make(chan string)
 
 	go func() {
-		data, _ := api.Call0()
+		data, _ := api.Call(1)
 		result <- data
 	}()
 
 	go func() {
-		data, _ := api.Call1()
+		data, _ := api.Call(3)
 		result <- data
 	}()
 
 	go func() {
-		data, _ := api.Call2()
+		data, _ := api.Call(5)
 		result <- data
 	}()
 
