@@ -7,7 +7,7 @@ import (
 )
 
 type API interface {
-	Call(context.Context, time.Duration) (string, error)
+	Call(ctx context.Context, id string) (string, error)
 }
 
 type MyAPI struct {
